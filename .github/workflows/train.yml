@@ -1,4 +1,4 @@
-name: Train Retention Model CI
+name: Train Retention Model CI/CD
 
 on:
   push:
@@ -8,6 +8,8 @@ on:
 jobs:
   train:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repo
@@ -31,3 +33,12 @@ jobs:
         with:
           name: trained-retention-model
           path: models/retention_model.joblib
+
+      - name: Publish trained model to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: retention-model-${{ github.run_number }}
+          name: Retention Model ${{ github.run_number }}
+          files: models/retention_model.joblib
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
