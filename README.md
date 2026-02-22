@@ -147,15 +147,21 @@ business-relevant framing, alongside a reproducible machine learning workflow.
 
 ---
 
-## Continuous Integration (CI)
+## ML Pipeline, CI/CD
 
-This project includes an automated machine learning pipeline using GitHub Actions.
+This project includes a structured machine learning workflow for chart retention modeling.
 
 On every push to the main branch:
-- Dependencies are installed in a clean environment
-- Data ingestion and preprocessing are executed
-- The binary classification training pipeline (`run_training.py`) runs end-to-end
-- The trained model artifact is generated and stored
+- Dependencies are installed in a clean environment  
+- Data ingestion and preprocessing steps are executed  
+- The binary classification training pipeline (`run_training.py`) runs end-to-end  
+- Model performance is evaluated  
+- The trained retention model is saved  
 
-This ensures the full ML workflow (ingestion → preprocessing → training → evaluation → artifact generation)
-is reproducible and environment-independent.
+This ensures the full workflow (ingestion → preprocessing → classification → evaluation → artifact generation) 
+remains reproducible and environment-independent.
+
+In addition, each successful run automatically publishes a versioned retention classification model
+to GitHub Releases. This provides traceability of model iterations and enables automated delivery
+of updated model versions.
+
