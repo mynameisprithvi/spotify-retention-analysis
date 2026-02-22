@@ -101,22 +101,61 @@ deterministic predictions.
 
 ---
 
-## Repository Structure
-- notebooks/
-  - 01_eda.ipynb
-  - 02_statistical_tests.ipynb
-  - 03_binary_modeling.ipynb
+## Project Structure
 
-- data/
-  - spotify_top_songs_audio_features.csv
+notebooks/
+- 01_eda.ipynb
+- 02_statistical_tests.ipynb
+- 03_binary_modeling.ipynb
 
-- README.md
+data/
+- spotify_top_songs_audio_features.csv
+
+scripts/
+- data_ingest.py
+- preprocessing.py
+- train.py
+
+models/
+- retention_model.joblib
+
+.github/
+- workflows/
+  - train.yml
+
+run_training.py
+requirements.txt
+README.md
 
 ---
 
-## Notes
+## Tools Used
 
+- Python
+- pandas, NumPy
+- scikit-learn
+- matplotlib, seaborn
+- SciPy (statistical testing)
+
+---
+
+## Status
+
+Complete.  
 This project emphasizes methodological rigor, honest interpretation, and
-business-relevant framing over metric chasing. All conclusions are supported
-consistently across EDA, statistical testing, and modeling.
+business-relevant framing, alongside a reproducible machine learning workflow.
 
+---
+
+## Continuous Integration (CI)
+
+This project includes an automated machine learning pipeline using GitHub Actions.
+
+On every push to the main branch:
+- Dependencies are installed in a clean environment
+- Data ingestion and preprocessing are executed
+- The binary classification training pipeline (`run_training.py`) runs end-to-end
+- The trained model artifact is generated and stored
+
+This ensures the full ML workflow (ingestion → preprocessing → training → evaluation → artifact generation)
+is reproducible and environment-independent.
