@@ -1,34 +1,29 @@
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
-from xgboost import XGBRegressor
+from sklearn.preprocessing import StandardScaler
 
 
-def build_training_pipeline(X):
-    categorical_cols = X.select_dtypes(include="object").columns
-    numeric_cols = X.select_dtypes(exclude="object").columns
+def build_model(model_type="logistic"):
 
-    preprocessor = ColumnTransformer(
-        transformers=[
-            ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols),
-            ("num", "passthrough", numeric_cols),
-        ]
-    )
+    if model_type == "logistic":
+        model = LogisticRegression(max_iter=1000)
+        pipeline = Pipeline([
+            ("scaler", StandardScaler()),
+            ("model", model)
+        ])
 
-    model = XGBRegressor(
-        n_estimators=200,
-        max_depth=6,
-        learning_rate=0.05,
-        subsample=0.8,
-        colsample_bytree=0.8,
-        random_state=42
-    )
+    elif model_type == "rf":
+        model = RandomForestClassifier(
+            n_estimators=200,
+            max_depth=8,
+            random_state=42
+        )
+        pipeline = Pipeline([
+            ("model", model)
+        ])
 
-    pipeline = Pipeline(
-        steps=[
-            ("preprocessor", preprocessor),
-            ("model", model),
-        ]
-    )
+    else:
+        raise ValueError("model_type must be 'logistic' or 'rf'")
 
     return pipeline
